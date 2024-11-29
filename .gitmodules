@@ -1,0 +1,3 @@
+[submodule "aur"]
+	path = aur
+	url = https://aur.archlinux.org/cjlu-exams2calendar.git
