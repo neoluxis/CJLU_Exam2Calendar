@@ -1,6 +1,16 @@
 # CJLU 考试安排转日历
 
-## 安装依赖
+## 安装
+
+### Arch Linux
+
+对于 Arch Linux 直接安装 AUR 包即可
+
+```bash
+paru -S cjlu-exams2calendar
+```
+
+### 非 Arch Linux
 
 1. 创建 Python 环境  
     可以使用 Anaconda 或 venv 或者直接使用系统 Python
