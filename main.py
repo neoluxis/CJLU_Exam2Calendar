@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 
-import cv2 as cv
-import pytesseract
+
 import re
 import argparse
 import os
+import logging
+import json
+
+import cv2 as cv
+import pytesseract
 
 
 def gen_calendar(event_conf, out_path):
@@ -65,9 +69,11 @@ def ocr(img_path):
 
 def parse_opt():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image_path", "-i", type=str, default="zhyy.jpg", help="Path to the image file")
+    parser.add_argument("--image_path", "-i", type=str, default="exams.jpg", help="Path to the image file")
     parser.add_argument("--out_path", "-o", type=str, default="output", help="Path to the output ics file")
     parser.add_argument("--verbose", "-v", action="store_true", help="Print more info")
+    parser.add_argument("--tesseract_path", "-t", type=str, default="/usr/bin/tesseract",
+                        help="Path to the tesseract executable")
     args = parser.parse_args()
     if not args.out_path.endswith(".ics"):
         outfolder = True
@@ -85,9 +91,17 @@ def main(opt):
     if not os.path.exists(opt.image_path):
         print(f"Error: Image file not found: {opt.image_path}")
         return 1
+    if opt.verbose:
+        logging.basicConfig(level=logging.INFO)
+    pytesseract.pytesseract.tesseract_cmd = opt.tesseract_path
+    logging.info(f"Using tesseract at {opt.tesseract_path}")
     texts = ocr(opt.image_path)
+    logging.info(f"OCR result: {texts}")
     conf = parse_text(texts)
+    cf = json.dumps(conf, ensure_ascii=False, indent=2)
+    logging.info(f"Parse result: {cf}")
     gen_calendar(conf, opt.out_path)
+    logging.info(f"Calendar file generated at {opt.out_path}")
     return 0
 
 
