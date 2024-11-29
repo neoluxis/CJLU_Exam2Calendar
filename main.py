@@ -7,7 +7,8 @@ import os
 import logging
 import json
 
-import cv2 as cv
+# import cv2 as cv
+from PIL import Image
 import pytesseract
 
 
@@ -61,8 +62,10 @@ def parse_text(texts):
 
 
 def ocr(img_path):
-    img = cv.imread(img_path)
-    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    # img = cv.imread(img_path)
+    # gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    img = Image.open(img_path)
+    gray = img.convert('L')
     text = pytesseract.image_to_string(gray, lang="chi_sim")
     return text
 
