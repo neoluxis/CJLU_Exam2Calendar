@@ -18,8 +18,8 @@ def gen_calendar(event_conf, out_path):
         date, start, end = t
         ics_content += f"""BEGIN:VEVENT
 SUMMARY:{c}
-DTSTART;TZID=Asia/Shanghai:{date}T{start.replace(":", "")}00
-DTEND;TZID=Asia/Shanghai:{date}T{end.replace(":", "")}00
+DTSTART;TZID=Asia/Shanghai:{date.replace("-","")}T{start.replace(":", "")}00
+DTEND;TZID=Asia/Shanghai:{date.replace("-","")}T{end.replace(":", "")}00
 LOCATION:{r} 座位号: {s}
 END:VEVENT
 """
